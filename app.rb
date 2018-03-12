@@ -1,12 +1,9 @@
 require 'sinatra/base'
+require './lib/link'
 
 class BookmarkManager < Sinatra::Base
   get '/' do
-    @links = [
-      "http://www.makersacademy.com",
-      "http://www.facebook.com",
-      "http://www.google.com"
-              ]
+    @links = Link.all
     erb :index
   end
 
