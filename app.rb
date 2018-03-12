@@ -3,7 +3,12 @@ require 'sinatra/base'
 class BookmarkManager < Sinatra::Base
 
   get '/' do
-    'Testing infrastructure working!'
+    @links = [
+      "http://www.makersacademy.com",
+      "http://www.facebook.com",
+      "http://www.google.com"
+              ]
+    erb :index
   end
 
   run! if app_file == $0
