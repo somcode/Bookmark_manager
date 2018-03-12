@@ -1,9 +1,7 @@
+require 'pg'
+
 class Link
   def self.all
-    [
-      "http://www.makersacademy.com",
-      "http://www.facebook.com",
-      "http://www.google.com"
-    ]
+    connection = PG.connect :dbname => 'bookmark_manager', :user => 'hemesh'
   end
 end
