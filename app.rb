@@ -1,7 +1,6 @@
 require 'sinatra/base'
 
 class BookmarkManager < Sinatra::Base
-
   get '/' do
     @links = [
       "http://www.makersacademy.com",
@@ -12,5 +11,4 @@ class BookmarkManager < Sinatra::Base
   end
 
   run! if app_file == $0
-
 end
