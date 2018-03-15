@@ -19,11 +19,7 @@ class BookmarkManager < Sinatra::Base
   end
 
   post '/create-new-link' do
-    if params['url'] =~ /\A#{URI::regexp(['http', 'https'])}\z/
-      Link.create(url: params['url'])
-    else
-      flash[:notice] = "You must submit a valid URL."
-    end
+    flash[:notice] = "You must submit a valid URL." unless Link.create(url: params['url'])
     redirect '/'
   end
 
