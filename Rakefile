@@ -11,15 +11,12 @@ task :test_database_setup do
 end
 
 task :setup do
-  p "Creating databases..."
+  p "Creating databases...",
 
-  connection = PG.connect
-  connection.exec("CREATE DATABASE bookmark_manager;")
-  connection.exec("CREATE DATABASE bookmark_manager_test;")
-
-  connection = PG.connect(dbname: 'bookmark_manager')
-  connection.exec("CREATE TABLE links(id SERIAL PRIMARY KEY, url VARCHAR(60));")
-
-  connection = PG.connect(dbname: 'bookmark_manager_test')
-  connection.exec("CREATE TABLE links(id SERIAL PRIMARY KEY, url VARCHAR(60));")
+  ['bookmark_manager', 'bookmark_manager_test'].each do |database|
+    connection = PG.connect
+    connection.exec("CREATE DATABASE #{ database };")
+    connection = PG.connect(dbname: database)
+    connection.exec("CREATE TABLE links(id SERIAL PRIMARY KEY, url VARCHAR(60));")
+  end
 end
