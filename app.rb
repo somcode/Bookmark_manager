@@ -1,8 +1,13 @@
 require 'sinatra/base'
 require './lib/link'
 require './database_connection_setup'
+require 'uri'
+require 'sinatra/flash'
 
 class BookmarkManager < Sinatra::Base
+
+  enable :sessions
+  register Sinatra::Flash
 
   get '/' do
     @links = Link.all
@@ -14,7 +19,11 @@ class BookmarkManager < Sinatra::Base
   end
 
   post '/create-new-link' do
-    Link.create(url: params['url'])
+    if params['url'] =~ /\A#{URI::regexp(['http', 'https'])}\z/
+      Link.create(url: params['url'])
+    else
+      flash[:notice] = "You must submit a valid URL."
+    end
     redirect '/'
   end
 
