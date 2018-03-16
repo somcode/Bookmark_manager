@@ -1,15 +1,24 @@
-require 'database_connection'
-
+require_relative 'database_connection'
+require 'uri'
 
 class Link
+
+  attr_reader :id, :url, :title
+
+  def initialize(id, url, title)
+    @id = id
+    @url = url
+    @title = title
+  end
+
   def self.all
     result = DatabaseConnection.query("SELECT * FROM links")
-    result.map { |link| link['url'] }
+    result.map { |link| Link.new(link['id'], link['url'], link['title'] )}
   end
 
   def self.create(options)
     return false unless is_url?(options[:url])
-    DatabaseConnection.query("INSERT INTO links (url) VALUES('#{options[:url]}')")
+    DatabaseConnection.query("INSERT INTO links (url, title) VALUES('#{options[:url]}', '#{options[:title]}')")
   end
 
   private
